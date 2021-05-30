@@ -19,4 +19,15 @@ python -m http.server
 
 ```bash
 roslunch rosbridge_server rosbridge_websocket.launch
+
+```
+
+
+## To run it on localhost
+
+```bash
+git clone <this.repo>
+cd webpages
+npm install
+npm start
 ```
