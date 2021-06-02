@@ -24,6 +24,11 @@ const useStyle = makeStyles((theme) => ({
     background: "red",
     color: "white",
   },
+  centerJoy: {
+    margin: "auto",
+    width: "256px",
+    transform: "translateX(12%)",
+  }
 }))
 
 // Piekny enum <3
@@ -35,26 +40,33 @@ function App() {
   const [connection, setConnection] = useState(1);
   const [url, setUrl] = useState("");
   const [topic, setTopic] = useState(null);
+  //const emptyURL = useState(null);
 
   const connectToWs = () => {
-    var ros = new ROSLIB.Ros({
-      url: `ws://${url}`
-    });
+    if (url !== "") {
+      var ros = new ROSLIB.Ros({
+        url: `ws://${url}`
+      });
 
-    ros.on('connection', function () {
-      console.log('Connected to websocket server.');
-      setConnection(3);
-    });
+      ros.on('connection', function () {
+        console.log('Connected to websocket server.');
+        setConnection(3);
+      });
 
-    ros.on('error', function (error) {
-      console.log('Error connecting to websocket server: ', error);
-      setConnection(4);
-    });
+      ros.on('error', function (error) {
+        console.log('Error connecting to websocket server: ', error);
+        setConnection(4);
+      });
 
-    ros.on('close', function () {
+      ros.on('close', function () {
+        setConnection(1);
+        console.log('Connection to websocket server closed.');
+      });
+    } else {
       setConnection(1);
-      console.log('Connection to websocket server closed.');
-    });
+      console.log('Error connecting to websocket server, empty url');
+    }
+
   }
 
   const renderConnectButton = (onclick) => {
@@ -121,7 +133,10 @@ function App() {
         </Grid>
 
       </Grid>
-      <Joystick />
+      <div className={classes.centerJoy}>
+        <Joystick />
+      </div>
+
     </div>
   );
 }
