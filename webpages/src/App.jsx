@@ -39,12 +39,12 @@ function App() {
   const classes = useStyle();
   const [connection, setConnection] = useState(1);
   const [url, setUrl] = useState("");
-  const [topic, setTopic] = useState(null);
-  //const emptyURL = useState(null);
+
+  let ros = null;
 
   const connectToWs = () => {
     if (url !== "") {
-      var ros = new ROSLIB.Ros({
+      ros = new ROSLIB.Ros({
         url: `ws://${url}`
       });
 
@@ -95,30 +95,45 @@ function App() {
     setUrl(e.target.value);
   }
 
-  // const createTopic = () => {
-  //   setTopic(new ROSLIB.Topic({
-  //     ros: this.ros,
-  //     name: '/cmd_vel',
-  //     messageType: 'geometry_msgs/Twist' //TODO <-- Change that as u need
-  //   }))
-  //   console.log(`Topic: ${topic}`);
-  // }
+  const callDock = () => {
+    let docking = new ROSLIB.Service({
+      ros: ros,
+      name: '/dock',
+      serviceType: '/t_docking_node/docking/dock'
+    });
 
-  //Moze zadziala, moze nie
+    let request = new ROSLIB.ServiceRequest({
+      distance: 123,
+      max_speed: 321,
+      min_speed: 123,
+    })
 
-  // First, we create a Service client with details of the service's name and service type.
-  var dockingClient = new ROSLIB.Service({
-    ros : ros,
-    name: '/dock',
-    serviceType: '/docking_controller/srv'
-  });
+    docking.callService(request, (response) => {
+      if(response.success)
+        console.log("Docking completed 🐳");
+      else
+        console.log("Docking failed 🤬");
+    })
+  }
 
-  var requestDoc = new ROSLIB.ServiceRequest();
+  const callAbort = () => {
+    let aborting = new ROSLIB.Service({
+      ros: ros,
+      name: '/abort',
+      serviceType: '/t_docking_node/docking/abort'
+    });
 
-  dockingClient.callService(requestDoc, function(result){
-    console.log('Result for service call on?');
-  });
-  //Help me
+    let request = new ROSLIB.ServiceRequest({
+      confirmation: true,
+    })
+
+    aborting.callService(request, (response) => {
+      if(response.success)
+        console.log("Abortion completed 🤣");
+      else
+        console.log("Abortion failed 😢");
+    })
+  }
 
   return (
     <div >
@@ -127,7 +142,7 @@ function App() {
         alignItems="center" style={{ margin: "20px" }} className={classes.root}>
 
         <Grid item xs={12}>
-          <TextField id="outlined-basic" label="URL" variant="outlined" label={"url without ws://"} onChange={handleInput} />
+          <TextField id="outlined-basic" variant="outlined" label={"url without ws://"} onChange={handleInput} />
           <FormHelperText>{connectionStatuses[connection]}</FormHelperText>
         </Grid>
 
@@ -140,12 +155,12 @@ function App() {
 
         <Grid item xs={12}>
           {renderStartButton(() => {
-            createTopic();
+            callDock();
           })}
         </Grid>
 
         <Grid item xs={12}>
-          {renderExecuteButton(() => setConnection(2))}
+          {renderExecuteButton(() => callAbort())}
         </Grid>
 
       </Grid>
