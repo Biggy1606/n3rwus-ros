@@ -95,14 +95,30 @@ function App() {
     setUrl(e.target.value);
   }
 
-  const createTopic = () => {
-    setTopic(new ROSLIB.Topic({
-      ros: this.ros,
-      name: '/cmd_vel',
-      messageType: 'geometry_msgs/Twist' //TODO <-- Change that as u need
-    }))
-    console.log(`Topic: ${topic}`);
-  }
+  // const createTopic = () => {
+  //   setTopic(new ROSLIB.Topic({
+  //     ros: this.ros,
+  //     name: '/cmd_vel',
+  //     messageType: 'geometry_msgs/Twist' //TODO <-- Change that as u need
+  //   }))
+  //   console.log(`Topic: ${topic}`);
+  // }
+
+  //Moze zadziala, moze nie
+
+  // First, we create a Service client with details of the service's name and service type.
+  var dockingClient = new ROSLIB.Service({
+    ros : ros,
+    name: '/dock',
+    serviceType: '/docking_controller/srv'
+  });
+
+  var requestDoc = new ROSLIB.ServiceRequest();
+
+  dockingClient.callService(requestDoc, function(result){
+    console.log('Result for service call on?');
+  });
+  //Help me
 
   return (
     <div >
