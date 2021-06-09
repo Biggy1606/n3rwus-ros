@@ -84,9 +84,9 @@ function App() {
   }
   const renderExecuteButton = (onclick) => {
     if (connection === connectionStatuses.connected) {
-      return <Button onClick={onclick} variant={"contained"}>execute order 66</Button>
+      return <Button onClick={onclick} variant={"contained"}>abort the mission</Button>
     } else {
-      return <Button disabled variant={"contained"}>execute order 66</Button>
+      return <Button disabled variant={"contained"}>abort the mission</Button>
     }
   }
 
