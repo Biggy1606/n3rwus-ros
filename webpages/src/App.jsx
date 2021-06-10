@@ -103,9 +103,9 @@ function App() {
     });
 
     let request = new ROSLIB.ServiceRequest({
-      distance: 123,
-      max_speed: 321,
-      min_speed: 123,
+      distance: 1,
+      max_speed: 1,
+      min_speed: 1,
     })
 
     docking.callService(request, (response) => {
