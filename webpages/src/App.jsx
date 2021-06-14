@@ -31,14 +31,14 @@ const useStyle = makeStyles((theme) => ({
   }
 }))
 
-// Piekny enum <3
+// Piekny enum <3 To jest tylko szablon dla stanów połączenia
 const connectionStatuses = { 1: "Disconnect", 2: "Connecting", 3: "Connected", 4: "Error" }
 Object.freeze(connectionStatuses);
 
 function App() {
   const classes = useStyle();
-  const [connection, setConnection] = useState(1);
-  const [url, setUrl] = useState("");
+  const [connection, setConnection] = useState(1); //Tutaj jest zmienna z faktycznymi wartościami (może i const ale React hook useState)
+  const [url, setUrl] = useState(""); //Adres wprowadzany na stronie
 
   let ros = null;
 
@@ -59,12 +59,12 @@ function App() {
       });
 
       ros.on('close', function () {
-        setConnection(1);
         console.log('Connection to websocket server closed.');
+        setConnection(1);
       });
     } else {
-      setConnection(1);
       console.log('Error connecting to websocket server, empty url');
+      setConnection(1);
     }
 
   }
@@ -76,14 +76,14 @@ function App() {
       return (<Button onClick={onclick} disabled variant={"contained"} className={classes.connecting}>connect</Button>);
   }
   const renderStartButton = (onclick) => {
-    if (connection === connectionStatuses.connected) {
+    if (connection === 3) {
       return <Button onClick={onclick} variant={"contained"}>start the procedure</Button>
     } else {
       return <Button disabled variant={"contained"}>start the procedure</Button>
     }
   }
   const renderExecuteButton = (onclick) => {
-    if (connection === connectionStatuses.connected) {
+    if (connection === 3) {
       return <Button onClick={onclick} variant={"contained"}>abort the mission</Button>
     } else {
       return <Button disabled variant={"contained"}>abort the mission</Button>
@@ -165,7 +165,7 @@ function App() {
 
       </Grid>
       <div className={classes.centerJoy}>
-        <Joystick />
+        <Joystick/>
       </div>
 
     </div>

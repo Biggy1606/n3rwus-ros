@@ -10,7 +10,7 @@ const useStyle = makeStyles(theme => ({
     }
 }));
 
-const Joystick = () => {
+const Joystick = (props) => {
     const classes = useStyle();
     return (
         <>
@@ -18,23 +18,23 @@ const Joystick = () => {
                 <Grid item xs={4}>
                 </Grid>
                 <Grid item xs={4}>
-                    <Button variant={"contained"}>UP</Button>
+                    <Button variant={"contained"} onClick={props.up}>UP</Button>
                 </Grid>
                 <Grid item xs={4}>
                 </Grid>
                 <Grid item xs={4}>
-                    <Button variant={"contained"}>LEFT</Button>
+                    <Button variant={"contained"} onClick={props.left}>LEFT</Button>
                 </Grid>
                 <Grid item xs={4}>
                     <Button variant={"contained"}>enter</Button>
                 </Grid>
                 <Grid item xs={4}>
-                    <Button variant={"contained"}>RIGHT</Button>
+                    <Button variant={"contained"} onClick={props.right}>RIGHT</Button>
                 </Grid>
                 <Grid item xs={4}>
                 </Grid>
                 <Grid item xs={4}>
-                    <Button variant={"contained"}>DOWN</Button>
+                    <Button variant={"contained"} onClick={props.down}>DOWN</Button>
                 </Grid>
                 <Grid item xs={4}>
                 </Grid>
