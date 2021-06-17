@@ -72,7 +72,7 @@ function App() {
   const renderConnectButton = (onclick) => {
     if (connection === 1)
       return (<Button onClick={onclick} variant={"contained"} className={classes.disconnected}>connect</Button>);
-    else if (connection === (2 || 4 || 3))
+    else if (connection === 2 || 4 || 3)
       return (<Button onClick={onclick} disabled variant={"contained"} className={classes.connecting}>connect</Button>);
   }
   const renderStartButton = (onclick) => {
@@ -103,9 +103,9 @@ function App() {
     });
 
     let request = new ROSLIB.ServiceRequest({
-      distance: 1,
-      max_speed: 1,
-      min_speed: 1,
+      distance: 0.1,
+      max_speed: 0.1,
+      min_speed: 0.1,
     })
 
     docking.callService(request, (response) => {
